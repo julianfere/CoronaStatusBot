@@ -1,8 +1,8 @@
 # CoronaStatusBot
 ---
-> CoronaStatus is a simple discord bot that keeps track of the covid-19 situation
+CoronaStatus is a simple discord bot that keeps track of the covid-19 situation
 
-#### It's made for work with a MongoDB cluster so... yeah it can work in different servers :D
+It's made for work with a MongoDB cluster so... yeah it can work in different servers :D
 
 ## How it works:
 
@@ -18,7 +18,7 @@
 ![alt text](https://github.com/julianfere/CoronaStatusBot/blob/master/media.md/embed.jpg)
 
 
-**Note: ** The bot edits the embed message every 5 hours 
+**Note:** The bot edits the embed message every 5 hours 
 
 
 
