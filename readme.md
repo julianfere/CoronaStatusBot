@@ -11,11 +11,13 @@ It's made for work with a MongoDB cluster so... yeah it can work in different se
    
    ``` !c #Channel 'country' ```
    
-![alt text](https://github.com/julianfere/CoronaStatusBot/blob/master/media.md/channel.jpg)
+   ![alt text](https://github.com/julianfere/CoronaStatusBot/blob/master/media.md/command.jpg)
+   
+   ![alt text](https://github.com/julianfere/CoronaStatusBot/blob/master/media.md/channel.jpg)
 
 3. Let the bot do his job
 
-![alt text](https://github.com/julianfere/CoronaStatusBot/blob/master/media.md/embed.jpg)
+   ![alt text](https://github.com/julianfere/CoronaStatusBot/blob/master/media.md/embed.jpg)
 
 
 **Note:** The bot edits the embed message every 5 hours 
