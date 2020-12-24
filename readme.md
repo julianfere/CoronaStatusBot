@@ -11,5 +11,15 @@
    
    ``` !c #Channel 'country' ```
    
+![alt text](https://github.com/julianfere/CoronaStatusBot/blob/master/media.md/channel.jpg)
 
-  [logo]: https://github.com/julianfere/CoronaStatusBot/blob/master/media.md/channel.jpg "logo"
+3. Let the bot do his job
+
+![alt text](https://github.com/julianfere/CoronaStatusBot/blob/master/media.md/embed.jpg)
+
+
+**Note: ** The bot edits the embed message every 5 hours 
+
+
+
+> Source: https://www.worldometers.info/coronavirus/
