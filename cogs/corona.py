@@ -4,6 +4,7 @@ from pymongo import MongoClient
 import requests
 from bs4 import BeautifulSoup
 import asyncio
+from datetime import date,timedelta
 
 clientdb = MongoClient("mongodb+srv://fere:LUNAteamo123@cluster0.wy2pb.mongodb.net/Cluster0?retryWrites=true&w=majority")
 DB = clientdb["Cluster0"]
@@ -19,12 +20,50 @@ class Corona(commands.Cog):
     async def on_ready(self):
         print('cog.Corona ready')
 
+
+
+    @commands.Cog.listener()
+    async def on_raw_reaction_add(self,payload):
+        if payload.emoji.name == '🔄':
+            channel = self.client.get_channel(payload.channel_id)
+            msg = await channel.fetch_message(payload.message_id)
+            self.collection = DB[str(payload.guild_id)]
+            guild = await self.client.fetch_guild(payload.guild_id)
+            c = self.collection.find_one({'_id':guild.name})
+            c = c['country']
+            await msg.remove_reaction(payload.emoji,payload.member)
+
+            embed_a = discord.Embed(title='Updating please wait...',color=0xf50000)
+            embed_a.set_author(name="Coronavirus Update", icon_url="https://flespi.io/covid19/img/android-icon-192x192.a7ab640c.png")
+
+            await msg.edit(embed=embed_a)
+
+            e,warning = self.get_information(c)
+        
+        
+        
+        #---> Embed
+            embed=discord.Embed(title=e[0], color=0xf50000)
+            embed.set_author(name="Coronavirus Update", icon_url="https://flespi.io/covid19/img/android-icon-192x192.a7ab640c.png")
+            embed.add_field(name="Total Cases", value=e[1], inline=True)
+            embed.add_field(name="New Cases", value=e[2], inline=True)
+            embed.add_field(name="Active Cases", value=e[7], inline=True)
+            embed.add_field(name="Total Deaths", value=e[3], inline=True)
+            embed.add_field(name="Total Recovered", value=e[5], inline=False)
+            if not warning: 
+                embed.add_field(name="Date",value=date.today().strftime("%d/%m/%Y"))
+            else:
+                yesterday = (date.today() - timedelta(days=1)).strftime("%d/%m/%Y")
+                embed.add_field(name='Date',value=yesterday)
+        #---> !Embed
+            await msg.edit(embed=embed)
+
     @commands.command(pass_context=True,aliases=['u'])
     async def update(self,ctx):
         command = ctx.message
         self.collection = DB[str(ctx.guild.id)]
         info = self.collection.find_one({'_id':ctx.guild.name})
-        e = self.get_information(info['country'])
+        e,warning = self.get_information(info['country'])
     #---> Embed
         embed=discord.Embed(title=e[0], color=0xf50000)
         embed.set_author(name="Coronavirus Update", icon_url="https://flespi.io/covid19/img/android-icon-192x192.a7ab640c.png")
@@ -32,7 +71,12 @@ class Corona(commands.Cog):
         embed.add_field(name="New Cases", value=e[2], inline=True)
         embed.add_field(name="Active Cases", value=e[7], inline=True)
         embed.add_field(name="Total Deaths", value=e[3], inline=True)
-        embed.add_field(name="Total Recovered", value=e[5], inline=True)
+        embed.add_field(name="Total Recovered", value=e[5], inline=False)
+        if not warning: 
+            embed.add_field(name="Date",value=date.today().strftime("%d/%m/%Y"))
+        else:
+            yesterday = (date.today() - timedelta(days=1)).strftime("%d/%m/%Y")
+            embed.add_field(name='Date',value=yesterday)
         embed.set_footer(text="Source: https://www.worldometers.info/coronavirus/")
     #---> !Embed
         if info['msg_id'] == 0:
@@ -41,9 +85,19 @@ class Corona(commands.Cog):
             self.collection.update_one({'msg_id':info['msg_id']},update_info)
         else:
             channel = self.client.get_channel(info['command_channel'])
-            msg = await channel.fetch_message(info['msg_id'])
-            await msg.edit(embed=embed)
-        
+            try:
+                msg = await channel.fetch_message(info['msg_id'])
+            except Exception as e:
+                print(e)
+                msg = await channel.send(embed=embed)
+                update_info = {'$set':{'msg_id':msg.id}}
+                self.collection.update_one({'msg_id':info['msg_id']},update_info)
+
+            await msg.edit(embed=embed)     
+
+
+
+        await msg.add_reaction('\U0001F504')
         await asyncio.sleep(5)
         await command.delete()
     
@@ -71,9 +125,9 @@ class Corona(commands.Cog):
                 print(e)               
 
         if '' in data_to_compare[0]:
-            return(data_to_compare[1])
+            return(data_to_compare[1],True) #---> True means "This is the actual date info"
         else:
-            return(data_to_compare[0])
+            return(data_to_compare[0],False) #---> False means "This is info from past days"
 
 
 
