@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 from pymongo import MongoClient
 import asyncio
-clientdb = MongoClient("YOUR.MONGO.DB.CLIENT")
+clientdb = MongoClient("mongodb+srv://fere:LUNAteamo123@cluster0.wy2pb.mongodb.net/Cluster0?retryWrites=true&w=majority")
 DB = clientdb["Cluster0"]
 
 class Config(commands.Cog):
@@ -36,15 +36,29 @@ class Config(commands.Cog):
         '''
         !config #Channel "Country" to set the channel and the country for post updates
         '''
+        command = ctx.message
         if ctx.message.author.guild_permissions.manage_messages:
             collection = DB[str(ctx.message.guild.id)]
+            infodb = collection.find_one({'_id':ctx.message.guild.name})
             info = {'$set':{'command_channel':channel.id}}
             infoc = {'$set':{'country':msg}}
-            collection.update_one({'command_channel':0},info)
-            collection.update_one({'country':''},infoc)
+            if infodb is None:
+                collection.update_one({'command_channel':0},info)
+                collection.update_one({'country':''},infoc)
+            else:
+                collection.update_one({'command_channel':infodb['command_channel']},info)
+                collection.update_one({'country':infodb['country']},infoc)
+                
             msj = await ctx.send(f'Channel set to <#{channel.id}> and updates from "{msg}"')
+            await asyncio.sleep(8)
+            await msj.delete()
         else:
-            print('pito')
+            ctx.send('You dont have permissions to do that :(')
+        
+        await asyncio.sleep(8)
+        await command.delete()
+
+        
 
     
 
