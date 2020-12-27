@@ -15,13 +15,17 @@ It's made for work with a MongoDB cluster so... yeah it can work in different se
    
    ![alt text](https://github.com/julianfere/CoronaStatusBot/blob/master/media.md/channel.jpg)
 
-3. Let the bot do his job
+3. Use ```!u``` to show the first message
 
    ![alt text](https://github.com/julianfere/CoronaStatusBot/blob/master/media.md/embed.jpg)
 
+**Note:** For the moment if you want to update the Embed you have to use ```!u``` again
+dont worry edits the embed and delete your command
 
-**Note:** The bot edits the embed message every 5 hours 
+## Future features
 
+- Reaction event for update the embed
 
+- Manage multiple Embeds
 
 > Source: https://www.worldometers.info/coronavirus/
