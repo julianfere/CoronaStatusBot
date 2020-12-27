@@ -20,7 +20,7 @@ It's made for work with a MongoDB cluster so... yeah it can work in different se
    ![alt text](https://github.com/julianfere/CoronaStatusBot/blob/master/media.md/embed.jpg)
 
 **Note:** For the moment if you want to update the Embed you have to use ```!u``` again
-or add a react
+or add to the reaction
 
 ## Future features
 
