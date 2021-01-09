@@ -15,15 +15,11 @@ It's made for work with a MongoDB cluster so... yeah it can work in different se
    
    ![alt text](https://github.com/julianfere/CoronaStatusBot/blob/master/media.md/channel.jpg)
 
-3. Use ```!u``` to show the first message
+3. Use ```!a Country``` to start tracking
 
    ![alt text](https://github.com/julianfere/CoronaStatusBot/blob/master/media.md/embed.jpg)
 
-**Note:** For the moment if you want to update the Embed you have to use ```!u``` again
-or add to the reaction
+**Note:** You can have multiple embeds with different countries 
 
-## Future features
-
-- Manage multiple Embeds
 
 > Source: https://www.worldometers.info/coronavirus/
